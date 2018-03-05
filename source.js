@@ -1,4 +1,5 @@
 var RSS = require('./rss');
+var twitter = require('./twitter');
 
 class Source {
 
@@ -12,23 +13,34 @@ class Source {
 		this.rss = obj.rss;
 	}
 
-
 	twitterFeed() {
+		if(this.twitter !== undefined){
+			return twitter.getTimelineText(this.twitter);
+		}
 		return emptyPromise();
 	}
 
 	rssFeed() {
+		if(this.rss !== undefined){
+			return rssPromise(this.rss);
+		}
 		return emptyPromise();
 	}
 
 	mediumFeed() {
-		var feedUrl = 'https://medium.com/feed/' + this.medium;
-		return rssPromise(feedUrl);
+		if(this.medium !== undefined){
+			var feedUrl = 'https://medium.com/feed/' + this.medium;
+			return rssPromise(feedUrl);
+		}
+		return emptyPromise();
 	}
 
 	redditFeed() {
-		var feedUrl = 'https://www.reddit.com/r/' + this.reddit + '.rss';
-		return rssPromise(feedUrl);
+		if(this.reddit !== undefined){
+			var feedUrl = 'https://www.reddit.com/r/' + this.reddit + '.rss';
+			return rssPromise(feedUrl);
+		}
+		return emptyPromise();
 	}
 
 	allFeeds() {

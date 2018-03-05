@@ -1,0 +1,27 @@
+{
+  "name": "news-aggregator",
+  "version": "1.0.0",
+  "description": "crypto news aggregator",
+  "main": "main.js",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "lda": "^0.2.0",
+    "rss-parser": "^3.1.1",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Haris87/news-aggregator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Haris87/news-aggregator/issues"
+  },
+  "homepage": "https://github.com/Haris87/news-aggregator#readme"
+}
