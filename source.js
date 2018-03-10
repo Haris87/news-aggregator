@@ -15,7 +15,8 @@ class Source {
 
 	twitterFeed() {
 		if(this.twitter !== undefined){
-			return twitter.getTimelineText(this.twitter);
+			return twitter.getTimeline(this.twitter);
+			// return twitter.getTimelineText(this.twitter);
 		}
 		return emptyPromise();
 	}
@@ -59,7 +60,7 @@ function allPromise(source) {
 
 function rssPromise(url) {
 	return new Promise(function(fulfill) {
-		RSS.getTitles(url).then(function(titles) {
+		RSS.getFeed(url).then(function(titles) {
 			fulfill(titles);
 		});
 	});

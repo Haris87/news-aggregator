@@ -24,7 +24,24 @@ function getTimelineText(username) {
 
 }
 
+function getTimeline(username) {
+	var params = {
+		screen_name: username
+	};
+
+	return new Promise(function(fulfill, reject){
+		client.get('statuses/user_timeline', params, function(error, tweets, response) {
+			if (!error) {
+				fulfill(tweets);
+			}
+			reject(error);
+		});
+	});
+
+}
+
 
 module.exports = {
-	getTimelineText: getTimelineText
+	getTimelineText: getTimelineText,
+	getTimeline: getTimeline
 };

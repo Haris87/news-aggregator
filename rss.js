@@ -15,6 +15,17 @@ function getTitles(url) {
 	});
 }
 
+function getFeed(url) {
+	var feed = parser.parseURL(url);
+
+	return new Promise(function(fulfill, reject) {
+		feed.then(function(feed) {
+			fulfill(feed.items);
+		});
+	});
+}
+
 module.exports = {
-	getTitles: getTitles
+	getTitles: getTitles,
+	getFeed: getFeed
 }
