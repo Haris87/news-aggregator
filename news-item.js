@@ -95,11 +95,17 @@ class NewsItem {
 
   }
 
-  static allSources(sources) {
+  static allFeeds(sources, source) {
     var twitter = sources[0];
     var rss = sources[1];
     var medium = sources[2];
     var reddit = sources[3];
+
+    var twitterItems = NewsItem.fromTwitter(twitter, source);
+    var rssItems = NewsItem.fromRSS(rss, source);
+    var mediumItems = NewsItem.fromMedium(medium, source);
+    var redditItems = NewsItem.fromReddit(reddit, source);
+    return twitterItems.concat(rssItems).concat(mediumItems).concat(redditItems);
   }
 
 }
