@@ -3,11 +3,14 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
+const mlab = require('./db');
 
 // Get our API routes
 const api = require('./routes/api');
 
 const app = express();
+
+mlab.connect();
 
 // Parsers for POST data
 app.use(bodyParser.json());
