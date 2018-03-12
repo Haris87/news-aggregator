@@ -48,6 +48,14 @@ class Source {
 		return allPromise(this);
 	}
 
+	static fromDB(sources) {
+		var items = []
+		for (var i = 0; i < sources.length; i++) {
+			items.push(new Source(sources[i]))
+		}
+		return items;
+	}
+
 }
 
 function allPromise(source) {

@@ -1,5 +1,7 @@
 var Source = require('./source');
+var SourceDB = require('./models/source');
 var NewsItem = require('./news-item');
+var NewsItemDB = require('./models/news-item');
 
 var Source = require('./source');
 var NewsItem = require('./news-item');
@@ -20,39 +22,40 @@ function allFeeds(source) {
 function getSources(){
 
   return new Promise(function(fulfill) {
-    var webetcrypto = new Source({
-      name: 'WeBetCrypto',
-      abbr: 'WBA',
-      type: 'coin',
-      medium: '@WeBetCrypto',
-      reddit: 'WeBetCryptoCasino',
-      twitter: 'WeBetCrypto'
+
+    SourceDB.find({}, function(err, newsItems){
+      fulfill(Source.fromDB(newsItems));
     });
 
-    var molyneux = new Source({
-      name: 'Stefan Molyneux',
-      twitter: 'StefanMolyneux'
-    });
+    // var webetcrypto = new Source({
+    //   name: 'WeBetCrypto',
+    //   abbr: 'WBA',
+    //   type: 'coin',
+    //   medium: '@WeBetCrypto',
+    //   reddit: 'WeBetCryptoCasino',
+    //   twitter: 'WeBetCrypto'
+    // });
+    //
+    // var molyneux = new Source({
+    //   name: 'Stefan Molyneux',
+    //   twitter: 'StefanMolyneux'
+    // });
+    //
+    // var bbc = new Source({
+    //   name: 'BBC',
+    //   rss: 'http://feeds.bbci.co.uk/news/world/rss.xml'
+    // });
+    //
+    // var coindesk = new Source({
+    //   name: 'Coin Desk',
+    //   rss: 'http://coindesk.com/feed'
+    // });
+    //
+    // var cointelegraph = new Source({
+    //   name: 'Coin Telegraph',
+    //   rss: 'https://cointelegraph.com/feed'
+    // });
 
-    var bbc = new Source({
-      name: 'BBC',
-      rss: 'http://feeds.bbci.co.uk/news/world/rss.xml'
-    });
-
-    var coindesk = new Source({
-      name: 'Coin Desk',
-      rss: 'http://coindesk.com/feed'
-    });
-
-    var cointelegraph = new Source({
-      name: 'Coin Telegraph',
-      rss: 'https://cointelegraph.com/feed'
-    });
-
-
-    var sources = [webetcrypto, molyneux, bbc, coindesk, cointelegraph];
-
-    fulfill(sources);
   });
 }
 
@@ -62,7 +65,7 @@ function getNews() {
   return new Promise(function(fulfill) {
 
     getSources().then(function(sources){
-
+      console.log(sources[0]);
       var newsItemsPromises = [];
       for (var i = 0; i < sources.length; i++) {
         var source = sources[i];

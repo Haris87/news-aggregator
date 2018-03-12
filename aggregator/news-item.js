@@ -108,6 +108,14 @@ class NewsItem {
     return twitterItems.concat(rssItems).concat(mediumItems).concat(redditItems);
   }
 
+  static fromDB(newsItems) {
+    var items = []
+    for (var i = 0; i < newsItems.length; i++) {
+      items.push(new NewsItem(newsItems[i]))
+    }
+    return items;
+  }
+
 }
 
 function stripHtml(str) {

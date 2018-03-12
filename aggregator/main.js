@@ -6,7 +6,7 @@ var mlab = require('./db');
 var Cron = require('./cron');
 var Crawler = require('./crawler');
 
-// mlab.connect();
+mlab.connect();
 // Cron.start();
 Crawler.getNews().then(function(items){
 	console.log("Got", items.length, "items");
