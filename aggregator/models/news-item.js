@@ -16,6 +16,8 @@ var newsItemSchema = new Schema({
   source: String
 });
 
+newsItemSchema.index({ title: 1, type: 1, source: 1}, { unique: true });
+
 var NewsItemDB = mongoose.model('NewsItem', newsItemSchema);
 
 module.exports = NewsItemDB;

@@ -11,7 +11,6 @@ mlab.connect();
 Crawler.getNews().then(function(items){
 	console.log("Got", items.length, "items");
 	console.log(getByteCount(items.toString()), "bytes");
-	// console.log(items);
 })
 
 function getByteCount(s){
