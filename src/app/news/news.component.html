@@ -1,6 +1,12 @@
 <p>
   news works!
 </p>
+<button (click)="sortNewsByDate()">Sort by date</button>
 <ul>
-  <li *ngFor="let item of news">{{item.title}}</li>
+  <li *ngFor="let item of news">
+    <div>{{item.title}}</div>
+    <div>{{item.type}}</div>
+    <div>{{item.source}}</div>
+    <div>{{item.dateCreated | date:'medium'}}</div>
+  </li>
 </ul>

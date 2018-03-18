@@ -181,7 +181,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/news/news.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  news works!\n</p>\n<ul>\n  <li *ngFor=\"let item of news\">{{item.title}}</li>\n</ul>\n"
+module.exports = "<p>\n  news works!\n</p>\n<button (click)=\"sortNewsByDate()\">Sort by date</button>\n<ul>\n  <li *ngFor=\"let item of news\">\n    <div>{{item.title}}</div>\n    <div>{{item.type}}</div>\n    <div>{{item.source}}</div>\n    <div>{{item.dateCreated | date:'medium'}}</div>\n  </li>\n</ul>\n"
 
 /***/ }),
 
@@ -212,10 +212,26 @@ var NewsComponent = (function () {
     }
     NewsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.getNews().subscribe(function (news) { return _this.news = news; });
+        this.reverse = false;
+        this.getNews().subscribe(function (news) {
+            _this.news = news;
+            _this.sortNewsByDate();
+        });
     };
     NewsComponent.prototype.getNews = function () {
         return this.http.get('http://localhost:3000/api/news');
+    };
+    NewsComponent.prototype.sortNewsByDate = function () {
+        var _this = this;
+        this.news = this.news.sort(function (a, b) {
+            if (_this.reverse) {
+                return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime();
+            }
+            else {
+                return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
+            }
+        });
+        this.reverse = !this.reverse;
     };
     return NewsComponent;
 }());
@@ -254,7 +270,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/sources/sources.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  sources works!\n</p>\n"
+module.exports = "<p>\n  sources works!\n</p>\n<ul>\n  <li *ngFor=\"let item of sources\">\n    <div>{{item.name}}</div>\n    <div>{{item.abbr}}</div>\n  </li>\n</ul>\n"
 
 /***/ }),
 
@@ -263,6 +279,7 @@ module.exports = "<p>\n  sources works!\n</p>\n"
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/@angular/common/http.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SourcesComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -274,10 +291,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+var httpOptions = {
+    headers: new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpHeaders */]({ 'Content-Type': 'application/json' })
+};
 var SourcesComponent = (function () {
-    function SourcesComponent() {
+    function SourcesComponent(http) {
+        this.http = http;
     }
     SourcesComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.getSources().subscribe(function (sources) { return _this.sources = sources; });
+    };
+    SourcesComponent.prototype.getSources = function () {
+        return this.http.get('http://localhost:3000/api/source');
     };
     return SourcesComponent;
 }());
@@ -287,9 +314,10 @@ SourcesComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/sources/sources.component.html"),
         styles: [__webpack_require__("../../../../../src/app/sources/sources.component.css")]
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["c" /* HttpClient */]) === "function" && _a || Object])
 ], SourcesComponent);
 
+var _a;
 //# sourceMappingURL=sources.component.js.map
 
 /***/ }),
