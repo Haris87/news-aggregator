@@ -5,11 +5,13 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const mlab = require('./db');
 const Crawler = require('./crawler');
+const cors = require('cors');
 
 // Get our API routes
 const api = require('./routes/api');
 
 const app = express();
+app.use(cors());
 
 // connect to database
 mlab.connect();

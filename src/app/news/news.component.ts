@@ -45,4 +45,9 @@ export class NewsComponent implements OnInit {
     this.reverse = !this.reverse;
   }
 
+  getIcon(item){
+    console.log("ITEM TYPE", item.type.toLowerCase());
+    return item.type.toLowerCase();
+  }
+
 }

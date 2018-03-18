@@ -27,7 +27,7 @@ class NewsItem {
       obj.url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
       obj.dateCreated = parseTwitterDate(tweet.created_at);
       obj.dateAdded = new Date();
-      obj.type = 'TWEET';
+      obj.type = 'TWITTER';
       obj.source = source;
       result.push(new NewsItem(obj));
     });

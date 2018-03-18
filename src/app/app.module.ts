@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { SourcesComponent } from './sources/sources.component';
 import { NewsComponent } from './news/news.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    Angular2FontawesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
