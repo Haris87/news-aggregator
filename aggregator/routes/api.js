@@ -8,6 +8,8 @@ var router = express.Router();
 router.get('/', index);
 router.post('/source', addSource);
 router.get('/source', getSources);
+router.get('/news', getAllNewsItems);
+router.get('/news/search/:term', searchNews);
 
 function index(req, res, next) {
   res.send('api works');
@@ -35,11 +37,32 @@ function addSource(req, res, next) {
 }
 
 function getSources(req, res, next) {
-  // res.send('api works: source');
-  // return;
+
   SourceDB.find({}, function(err, sources) {
     res.send(sources);
   });
+}
+
+function getAllNewsItems(req, res, next) {
+  NewsItemDB.find({}, function(err, sources) {
+    res.send(sources);
+  });
+}
+
+function searchNews(req, res, next) {
+  var searchTerm = req.params.term || 'awesome';
+  NewsItemDB.find({
+      $or: [{
+        title: new RegExp(searchTerm, 'i')
+      }, {
+        content: new RegExp(searchTerm, 'i')
+      }, {
+        author: new RegExp(searchTerm, 'i')
+      }]
+    },
+    function(err, sources) {
+      res.send(sources);
+    });
 }
 
 module.exports = router;

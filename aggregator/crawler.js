@@ -7,7 +7,21 @@ var feedUrl = 'https://medium.com/feed/@WeBetCrypto';
 var Topic = require('./topic-detection');
 var mlab = require('./db');
 var cronJob = require('cron').CronJob;
-var winston = require('winston');
+var Winston = require('winston');
+
+
+var winston = new Winston.Logger({
+  level: 'verbose',
+  transports: [
+    new Winston.transports.Console({
+      timestamp: true
+    })
+    // new Winston.transports.File({
+    //   filename: 'app.log',
+    //   timestamp: true
+    // })
+  ]
+});
 
 function allFeeds(source) {
   return new Promise(function(fulfill) {
@@ -17,11 +31,11 @@ function allFeeds(source) {
   });
 }
 
-function getSources(){
+function getSources() {
 
   return new Promise(function(fulfill) {
 
-    SourceDB.find({}, function(err, newsItems){
+    SourceDB.find({}, function(err, newsItems) {
       fulfill(Source.fromDB(newsItems));
     });
 
@@ -59,10 +73,10 @@ function getSources(){
 
 function getNews() {
 
-    winston.log('info', 'crawler getting news.');
+  winston.log('info', 'crawler getting news.');
   return new Promise(function(fulfill) {
 
-    getSources().then(function(sources){
+    getSources().then(function(sources) {
       var newsItemsPromises = [];
 
       // iterate through source and get newsitems from all feeds
@@ -81,11 +95,11 @@ function getNews() {
         // iterate newsitems and save to db
         for (var i = 0; i < flattened.length; i++) {
           var newsItem = new NewsItemDB(flattened[i]);
-          newsItem.save(function(err){
+          newsItem.save(function(err) {
 
-            if(err){
+            if (err) {
 
-              if(err.code === 11000){
+              if (err.code === 11000) {
                 winston.log('error', 'News item already exists in DB.');
               } else {
                 winston.log('error', err.message);
@@ -107,14 +121,14 @@ function getNews() {
 
 }
 
-function startCrawling(minutes){
+function startCrawling(minutes) {
 
-  var cronInterval = '00 */'+minutes+' * * * *';
-  var job = new cronJob(cronInterval, function(){
-    winston.log('info', 'cron '+minutes+'m');
-    getNews().then(function(items){
-    	winston.log('info', "Got", items.length, "items");
-    	winston.log('info', getByteCount(items.toString()), "bytes");
+  var cronInterval = '00 */' + minutes + ' * * * *';
+  var job = new cronJob(cronInterval, function() {
+    winston.log('info', 'cron ' + minutes + 'm');
+    getNews().then(function(items) {
+      winston.log('info', "Got", items.length, "items");
+      winston.log('info', getByteCount(items.toString()), "bytes");
     })
   }, null, false, 'UTC');
 
@@ -122,13 +136,14 @@ function startCrawling(minutes){
 
 }
 
-function getByteCount(s){
-  var count = 0, stringLength = s.length, i;
-  s = String( s || "" );
-  for( i = 0 ; i < stringLength ; i++ )
-  {
-    var partCount = encodeURI( s[i] ).split("%").length;
-    count += partCount==1?1:partCount-1;
+function getByteCount(s) {
+  var count = 0,
+    stringLength = s.length,
+    i;
+  s = String(s || "");
+  for (i = 0; i < stringLength; i++) {
+    var partCount = encodeURI(s[i]).split("%").length;
+    count += partCount == 1 ? 1 : partCount - 1;
   }
   return count;
 }

@@ -14,6 +14,8 @@ var sourceSchema = new Schema({
   rss: String
 });
 
+sourceSchema.index({ name: 1}, { unique: true });
+
 var SourceDB = mongoose.model('Source', sourceSchema);
 
 module.exports = SourceDB;
