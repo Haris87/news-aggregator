@@ -6,8 +6,8 @@ var NewsItemDB = require('./models/news-item');
 var feedUrl = 'https://medium.com/feed/@WeBetCrypto';
 var Topic = require('./topic-detection');
 var mlab = require('./db');
-var Cron = require('./cron');
-
+var cronJob = require('cron').CronJob;
+var winston = require('winston');
 
 function allFeeds(source) {
   return new Promise(function(fulfill) {
@@ -58,23 +58,22 @@ function getSources(){
 }
 
 function getNews() {
-// todo: write to db
-  console.log('crawler: started.');
+
+    winston.log('info', 'crawler getting news.');
   return new Promise(function(fulfill) {
 
     getSources().then(function(sources){
-      console.log(sources[0]);
       var newsItemsPromises = [];
 
       // iterate through source and get newsitems from all feeds
       for (var i = 0; i < sources.length; i++) {
         var source = sources[i];
-        console.log('crawler:', i, source.name);
+        winston.log('info', 'crawler', i, source.name);
         newsItemsPromises.push(allFeeds(source));
       }
 
       Promise.all(newsItemsPromises).then(function(result) {
-        console.log('crawler: done.');
+        winston.log('info', 'crawler done.');
         var flattened = result.reduce(function(a, b) {
           return a.concat(b);
         }, []);
@@ -87,13 +86,13 @@ function getNews() {
             if(err){
 
               if(err.code === 11000){
-                console.log('ERROR 11000: News item already exists in DB.');
+                winston.log('error', 'News item already exists in DB.');
               } else {
-                console.log('ERROR '+err.code+': '+err.message);
+                winston.log('error', err.message);
               }
 
             } else {
-              console.log('SUCESS: News item written in DB.');
+              winston.log('info', 'News item written in DB.');
             }
 
           });
@@ -108,6 +107,33 @@ function getNews() {
 
 }
 
+function startCrawling(minutes){
+
+  var cronInterval = '00 */'+minutes+' * * * *';
+  var job = new cronJob(cronInterval, function(){
+    winston.log('info', 'cron '+minutes+'m');
+    getNews().then(function(items){
+    	winston.log('info', "Got", items.length, "items");
+    	winston.log('info', getByteCount(items.toString()), "bytes");
+    })
+  }, null, false, 'UTC');
+
+  job.start();
+
+}
+
+function getByteCount(s){
+  var count = 0, stringLength = s.length, i;
+  s = String( s || "" );
+  for( i = 0 ; i < stringLength ; i++ )
+  {
+    var partCount = encodeURI( s[i] ).split("%").length;
+    count += partCount==1?1:partCount-1;
+  }
+  return count;
+}
+
 module.exports = {
+  startCrawling: startCrawling,
   getNews: getNews
 }
