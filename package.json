@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "node aggregator/server.js",
+    "start": "ng build && node aggregator/server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
