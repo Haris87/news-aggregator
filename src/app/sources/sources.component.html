@@ -1,6 +1,49 @@
 <p>
   sources works!
 </p>
+<div>
+
+  <form (ngSubmit)="addSource()">
+    <pre>{{model | json}}</pre>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" [(ngModel)]="source.name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="abbr">Abbreviation</label>
+        <input type="text" class="form-control" name="abbr" [(ngModel)]="source.abbr">
+      </div>
+
+      <div class="form-group">
+        <label for="type">Type</label>
+        <input type="text" class="form-control" name="type" [(ngModel)]="source.type" required>
+      </div>
+
+      <div class="form-group">
+        <label for="twitter">Twitter Handle</label>
+        <input type="text" class="form-control" name="twitter" [(ngModel)]="source.twitter">
+      </div>
+
+      <div class="form-group">
+        <label for="medium">Medium Handle</label>
+        <input type="text" class="form-control" name="medium" [(ngModel)]="source.medium">
+      </div>
+
+      <div class="form-group">
+        <label for="reddit">Reddit Handle</label>
+        <input type="text" class="form-control" name="reddit" [(ngModel)]="source.reddit">
+      </div>
+
+      <div class="form-group">
+        <label for="rss">RSS URL</label>
+        <input type="text" class="form-control" name="rss" [(ngModel)]="source.rss">
+      </div>
+
+      <button type="submit" class="btn btn-success">Submit</button>
+
+    </form>
+</div>
 <ul>
   <li *ngFor="let item of sources">
     <div>{{item.name}}</div>

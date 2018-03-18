@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { News } from '../news';
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,7 +13,7 @@ const httpOptions = {
 })
 export class NewsComponent implements OnInit {
 
-  news: any[];
+  news: News[];
   reverse: boolean;
 
   constructor(private http:HttpClient) {
@@ -28,12 +29,12 @@ export class NewsComponent implements OnInit {
   }
 
   getNews() {
-      return this.http.get<any[]>('http://localhost:3000/api/news');
+      return this.http.get<News[]>('http://localhost:3000/api/news');
   }
 
   sortNewsByDate() {
 
-    this.news = this.news.sort((a: any, b: any) => {
+    this.news = this.news.sort((a: News, b: News) => {
 
       if(this.reverse){
         return new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime()

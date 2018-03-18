@@ -5,7 +5,8 @@ import { AppComponent } from './app.component';
 import { SourcesComponent } from './sources/sources.component';
 import { NewsComponent } from './news/news.component';
 import { AppRoutingModule } from './app-routing.module';
-import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
+import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
+import { FormsModule }   from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    Angular2FontawesomeModule
+    Angular2FontawesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
