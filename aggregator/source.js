@@ -14,33 +14,43 @@ class Source {
 	}
 
 	twitterFeed() {
+
 		if(this.twitter !== undefined){
 			return twitter.getTimeline(this.twitter);
 			// return twitter.getTimelineText(this.twitter);
 		}
+
 		return emptyPromise();
 	}
 
 	rssFeed() {
+
 		if(this.rss !== undefined){
 			return rssPromise(this.rss);
 		}
+
 		return emptyPromise();
+
+
 	}
 
 	mediumFeed() {
+
 		if(this.medium !== undefined){
 			var feedUrl = 'https://medium.com/feed/' + this.medium;
 			return rssPromise(feedUrl);
 		}
+
 		return emptyPromise();
 	}
 
 	redditFeed() {
+
 		if(this.reddit !== undefined){
 			var feedUrl = 'https://www.reddit.com/r/' + this.reddit + '.rss';
 			return rssPromise(feedUrl);
 		}
+
 		return emptyPromise();
 	}
 
@@ -62,7 +72,10 @@ function allPromise(source) {
 	return new Promise(function(fulfill) {
 		Promise.all([source.twitterFeed(), source.rssFeed(), source.mediumFeed(), source.redditFeed()]).then(function(result) {
 			fulfill(result);
-		})
+		}).catch(function () {
+			console.log("Promise Rejected.");
+			fulfill([]);
+		});
 	});
 }
 
@@ -70,6 +83,9 @@ function rssPromise(url) {
 	return new Promise(function(fulfill) {
 		RSS.getFeed(url).then(function(titles) {
 			fulfill(titles);
+		}).catch(function () {
+			console.log("RSS get failed.");
+			fulfill([]);
 		});
 	});
 }

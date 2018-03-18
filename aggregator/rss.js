@@ -21,6 +21,9 @@ function getFeed(url) {
 	return new Promise(function(fulfill, reject) {
 		feed.then(function(feed) {
 			fulfill(feed.items);
+		}).catch(function(err){
+			console.log("RSS failed for", url);
+			reject([]);
 		});
 	});
 }
