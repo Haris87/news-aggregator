@@ -1,8 +1,6 @@
 var express = require('express');
 var NewsItemDB = require('../models/news-item');
-// var NewsItem = require('../news-item');
 var SourceDB = require('../models/source');
-// var Source = require('../source');
 var router = express.Router();
 
 router.get('/', index);
@@ -12,7 +10,7 @@ router.get('/news', getAllNewsItems);
 router.get('/news/search/:term', searchNews);
 
 function index(req, res, next) {
-  res.send('api works');
+  res.send('Welcome to my api, now get the fuck out.');
 }
 
 function addSource(req, res, next) {

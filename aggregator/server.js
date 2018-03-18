@@ -4,13 +4,18 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mlab = require('./db');
+const Crawler = require('./crawler');
 
 // Get our API routes
 const api = require('./routes/api');
 
 const app = express();
 
+// connect to database
 mlab.connect();
+
+// check sources every 5 minutes
+Crawler.startCrawling(5);
 
 // Parsers for POST data
 app.use(bodyParser.json());
