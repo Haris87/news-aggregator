@@ -44,9 +44,10 @@
 
     </form>
 </div>
-<ul>
-  <li *ngFor="let item of sources">
-    <div>{{item.name}}</div>
-    <div>{{item.abbr}}</div>
-  </li>
-</ul>
+
+<hr/>
+
+<div *ngFor="let item of sources" style="border-bottom: 1px solid grey;">
+  <div>{{item.name}}</div>
+  <div>{{item.abbr}}</div>
+</div>
