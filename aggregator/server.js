@@ -17,7 +17,7 @@ app.use(cors());
 mlab.connect();
 
 // check sources every 5 minutes
-Crawler.startCrawling(5);
+Crawler.startCrawling(10);
 
 // Parsers for POST data
 app.use(bodyParser.json());

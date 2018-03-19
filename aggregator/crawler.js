@@ -92,9 +92,20 @@ function getNews() {
           return a.concat(b);
         }, []);
 
+        var now = new Date();
+        var oneWeekAgo = new Date(now.getTime() - (60*60*24*7*1000));
+
+
         // iterate newsitems and save to db
         for (var i = 0; i < flattened.length; i++) {
           var newsItem = new NewsItemDB(flattened[i]);
+
+          var newsDate = new Date(newsItem.dateCreated);
+
+          if(newsDate.getTime() < oneWeekAgo.getTime()){
+            continue;
+          }
+
           newsItem.save(function(err) {
 
             if (err) {

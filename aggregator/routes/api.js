@@ -42,8 +42,8 @@ function getSources(req, res, next) {
 }
 
 function getAllNewsItems(req, res, next) {
-  NewsItemDB.find({}, function(err, sources) {
-    res.send(sources);
+  NewsItemDB.find({}).sort({dateCreated: 'desc'}).limit(100).exec(function(err, news) {
+    res.send(news);
   });
 }
 
@@ -57,8 +57,7 @@ function searchNews(req, res, next) {
       }, {
         author: new RegExp(searchTerm, 'i')
       }]
-    },
-    function(err, sources) {
+    }).sort({dateCreated: 'desc'}).limit(100).exec(function(err, sources) {
       res.send(sources);
     });
 }

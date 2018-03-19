@@ -47,7 +47,6 @@ export class NewsComponent implements OnInit {
   }
 
   getIcon(item){
-    console.log("ITEM TYPE", item.type.toLowerCase());
     return item.type.toLowerCase();
   }
 
