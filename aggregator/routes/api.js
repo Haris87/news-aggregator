@@ -42,7 +42,10 @@ function getSources(req, res, next) {
 }
 
 function getAllNewsItems(req, res, next) {
-  NewsItemDB.find({}).sort({dateCreated: 'desc'}).limit(100).exec(function(err, news) {
+  var page = req.query.page || 1;
+  var pageSize = 20;
+  var skip = page * pageSize;
+  NewsItemDB.find({}).sort({dateCreated: 'desc'}).skip(skip).limit(pageSize).exec(function(err, news) {
     res.send(news);
   });
 }

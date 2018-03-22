@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { News } from '../news';
 
 const httpOptions = {
@@ -13,7 +13,8 @@ const httpOptions = {
 })
 export class NewsComponent implements OnInit {
 
-  news: News[];
+  news: News[] = [];
+  page: number;
   reverse: boolean;
 
   constructor(private http:HttpClient) {
@@ -21,15 +22,33 @@ export class NewsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.page = 1;
     this.reverse = false;
-    this.getNews().subscribe(news => {
-      this.news = news;
-      this.sortNewsByDate();
+    this.getNews(this.page).subscribe(news => {
+      this.news = this.news.concat(news);
     });
   }
 
-  getNews() {
-      return this.http.get<News[]>('http://localhost:3000/api/news');
+  getNews(page: number) {
+      console.log('getting news, page', page);
+      let params = new HttpParams();
+      params = params.append('page', String(page));
+      return this.http.get<News[]>('http://localhost:3000/api/news', { params: params });
+  }
+
+  refresh(){
+    this.page = 1;
+    this.getNews(this.page).subscribe(news => {
+      this.news = news;
+    });
+  }
+
+  loadMore(){
+    this.page++;
+    console.log('loading more, page', this.page);
+    this.getNews(this.page).subscribe(news => {
+      this.news = this.news.concat(news);
+    });
   }
 
   sortNewsByDate() {

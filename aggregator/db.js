@@ -4,7 +4,7 @@ require('dotenv').config();
 var db = {
   connect: connect
 }
-// var connectionURL = 'mongodb://haris:@ds141284.mlab.com:41284/casino';
+
 var connectionURL = process.env.CONNECTION_URL;
 
 function connect() {

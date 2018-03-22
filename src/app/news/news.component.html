@@ -1,9 +1,11 @@
 <p>
   news works!
 </p>
-<button (click)="sortNewsByDate()">Sort by date</button>
+<button (click)="refresh()">refresh</button>
+<!-- <button (click)="sortNewsByDate()">Sort by date</button> -->
 
-<div *ngFor="let item of news">
+<div *ngFor="let item of news; let i = index">
+  <pre style="display: inline">#{{i}}</pre>
   <blockquote class="news-item">
     <p>{{item.title}}</p>
     <div>
@@ -12,3 +14,4 @@
     </div>
   </blockquote>
 </div>
+<button (click)="loadMore()">Load more news</button>
