@@ -9,7 +9,7 @@ const httpOptions = {
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css']
+  styleUrls: ['./news.component.css', '../app.component.css']
 })
 export class NewsComponent implements OnInit {
 
@@ -30,6 +30,7 @@ export class NewsComponent implements OnInit {
 
   search(term:string){
     console.log(term);
+    this.page = 1;
     this.getNews(this.page, term).subscribe(news => {
       this.news = news;
     });

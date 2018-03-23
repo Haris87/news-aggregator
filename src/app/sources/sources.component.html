@@ -45,9 +45,13 @@
     </form>
 </div>
 
-<hr/>
+<div *ngFor="let item of sources; let i = index" class="source">
 
-<div *ngFor="let item of sources" style="border-bottom: 1px solid grey;">
-  <div>{{item.name}}</div>
-  <div>{{item.abbr}}</div>
+  <div style="margin-bottom:5px;"><pre style="display:inline; font-size:12px;">#{{i+1}}</pre> <strong>{{item.name}}</strong> ({{item.type}})</div>
+  <div>
+    <a [hidden]="!item.twitter" target="_blank" href="http://twitter.com/{{item.twitter}}"><fa [name]="'twitter'" [size]="1" class="twitter"></fa></a>
+    <a [hidden]="!item.reddit" target="_blank" href="https://www.reddit.com/r/{{item.reddit}}"><fa [name]="'reddit'" [size]="1" class="reddit"></fa></a>
+    <a [hidden]="!item.medium" target="_blank" href="http://medium.com/{{item.medium}}"><fa [name]="'medium'" [size]="1" class="medium"></fa></a>
+    <a [hidden]="!item.rss" target="_blank" href="{{item.rss}}"><fa [name]="'rss'" [size]="1" class="rss"></fa></a>
+  </div>
 </div>

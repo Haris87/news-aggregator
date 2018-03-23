@@ -9,7 +9,7 @@ const httpOptions = {
 @Component({
   selector: 'app-sources',
   templateUrl: './sources.component.html',
-  styleUrls: ['./sources.component.css']
+  styleUrls: ['./sources.component.css', '../app.component.css']
 })
 export class SourcesComponent implements OnInit {
 
@@ -36,6 +36,10 @@ export class SourcesComponent implements OnInit {
     });
 
     this.source = new Source();
+  }
+
+  getIcon(item){
+    return item.type.toLowerCase();
   }
 
 }
