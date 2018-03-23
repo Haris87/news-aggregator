@@ -43,7 +43,7 @@ export class NewsComponent implements OnInit {
 
       if(term === undefined) term = ""
 
-      return this.http.get<News[]>('http://localhost:3000/api/news/'+term, { params: params });
+      return this.http.get<News[]>('/api/news/'+term, { params: params });
   }
 
   refresh(){

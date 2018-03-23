@@ -24,14 +24,14 @@ export class SourcesComponent implements OnInit {
   }
 
   getSources() {
-    return this.http.get<Source[]>('http://localhost:3000/api/source');
+    return this.http.get<Source[]>('/api/source');
   }
 
   addSource() {
     this.source.name = this.source.name.trim();
     if (!this.source.name) { return; }
 
-    this.http.post<Source>('http://localhost:3000/api/source', this.source, httpOptions).subscribe(source => {
+    this.http.post<Source>('/api/source', this.source, httpOptions).subscribe(source => {
       this.sources.push(source);
     });
 
