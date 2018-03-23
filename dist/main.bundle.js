@@ -241,7 +241,7 @@ var NewsComponent = (function () {
         params = params.append('page', String(page));
         if (term === undefined)
             term = "";
-        return this.http.get('http://localhost:3000/api/news/' + term, { params: params });
+        return this.http.get('/api/news/' + term, { params: params });
     };
     NewsComponent.prototype.refresh = function () {
         var _this = this;
@@ -370,7 +370,7 @@ var SourcesComponent = (function () {
         this.getSources().subscribe(function (sources) { return _this.sources = sources; });
     };
     SourcesComponent.prototype.getSources = function () {
-        return this.http.get('http://localhost:3000/api/source');
+        return this.http.get('/api/source');
     };
     SourcesComponent.prototype.addSource = function () {
         var _this = this;
@@ -378,7 +378,7 @@ var SourcesComponent = (function () {
         if (!this.source.name) {
             return;
         }
-        this.http.post('http://localhost:3000/api/source', this.source, httpOptions).subscribe(function (source) {
+        this.http.post('/api/source', this.source, httpOptions).subscribe(function (source) {
             _this.sources.push(source);
         });
         this.source = new __WEBPACK_IMPORTED_MODULE_2__source__["a" /* Source */]();
