@@ -18,79 +18,89 @@ class NewsItem {
 
   static fromTwitter(tweets, source) {
     var result = [];
-    tweets.forEach(function(tweet) {
-      var obj = {};
-      obj.title = tweet.text;
-      obj.content = tweet.text;
-      obj.media = tweet.entities.media ? tweet.entities.media[0].media_url : null;
-      obj.author = tweet.user.screen_name;
-      obj.url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
-      obj.dateCreated = parseTwitterDate(tweet.created_at);
-      obj.dateAdded = new Date();
-      obj.type = 'TWITTER';
-      obj.source = source;
-      result.push(new NewsItem(obj));
-    });
+    if(tweets !== undefined){
+      tweets.forEach(function(tweet) {
+        var obj = {};
+        obj.title = tweet.text;
+        obj.content = tweet.text;
+        obj.media = tweet.entities.media ? tweet.entities.media[0].media_url : null;
+        obj.author = tweet.user.screen_name;
+        obj.url = "https://twitter.com/" + tweet.user.screen_name + "/status/" + tweet.id_str;
+        obj.dateCreated = parseTwitterDate(tweet.created_at);
+        obj.dateAdded = new Date();
+        obj.type = 'TWITTER';
+        obj.source = source;
+        result.push(new NewsItem(obj));
+      });
+    }
+
     return result;
 
   }
 
   static fromReddit(feed, source) {
     var result = [];
-    feed.forEach(function(item) {
+    if(feed !== undefined){
+      feed.forEach(function(item) {
 
-      var obj = {};
-      obj.title = item.title;
-      obj.content = item.content;
-      obj.media = null;
-      obj.author = item.author;
-      obj.url = item.link;
-      obj.dateCreated = item.pubDate;
-      obj.dateAdded = new Date();
-      obj.type = 'REDDIT';
-      obj.source = source;
-      result.push(new NewsItem(obj));
-    });
+        var obj = {};
+        obj.title = item.title;
+        obj.content = item.content;
+        obj.media = null;
+        obj.author = item.author;
+        obj.url = item.link;
+        obj.dateCreated = item.pubDate;
+        obj.dateAdded = new Date();
+        obj.type = 'REDDIT';
+        obj.source = source;
+        result.push(new NewsItem(obj));
+      });
+    }
+
     return result;
 
   }
 
   static fromMedium(feed, source) {
     var result = [];
-    feed.forEach(function(item) {
+    if(feed !== undefined){
+      feed.forEach(function(item) {
 
-      var obj = {};
-      obj.title = item.title;
-      obj.content = item['content:encoded'];
-      obj.media = null;
-      obj.author = item.creator;
-      obj.url = item.link;
-      obj.dateCreated = new Date(item.pubDate);
-      obj.dateAdded = new Date();
-      obj.type = 'MEDIUM';
-      obj.source = source;
-      result.push(new NewsItem(obj));
-    });
+        var obj = {};
+        obj.title = item.title;
+        obj.content = item['content:encoded'];
+        obj.media = null;
+        obj.author = item.creator;
+        obj.url = item.link;
+        obj.dateCreated = new Date(item.pubDate);
+        obj.dateAdded = new Date();
+        obj.type = 'MEDIUM';
+        obj.source = source;
+        result.push(new NewsItem(obj));
+      });
+    }
     return result;
 
   }
 
   static fromRSS(feed, source) {
     var result = [];
-    feed.forEach(function(item) {
+    if(feed !== undefined){
+      feed.forEach(function(item) {
 
-      var obj = {};
-      obj.title = item.title;
-      obj.content = item.content || item.contentSnippet;
-      obj.media = item.image ? item.image.url : null;
-      obj.author = item.creator || item.author || item['dc:creator'];
-      obj.url = item.link || item.url;
-      obj.dateCreated = item.pubDate ? new Date(item.pubDate) : null;
-      obj.dateAdded = new Date();
-      obj.type = 'RSS';
-      obj.source = source;
-      result.push(new NewsItem(obj));
-    });
+        var obj = {};
+        obj.title = item.title;
+        obj.content = item.content || item.contentSnippet;
+        obj.media = item.image ? item.image.url : null;
+        obj.author = item.creator || item.author || item['dc:creator'];
+        obj.url = item.link || item.url;
+        obj.dateCreated = item.pubDate ? new Date(item.pubDate) : null;
+        obj.dateAdded = new Date();
+        obj.type = 'RSS';
+        obj.source = source;
+        result.push(new NewsItem(obj));
+      });
+    }
     return result;
 
   }

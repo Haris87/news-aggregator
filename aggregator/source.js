@@ -72,8 +72,8 @@ function allPromise(source) {
 	return new Promise(function(fulfill) {
 		Promise.all([source.twitterFeed(), source.rssFeed(), source.mediumFeed(), source.redditFeed()]).then(function(result) {
 			fulfill(result);
-		}).catch(function () {
-			console.log("Promise Rejected.");
+		}).catch(function (e) {
+			console.log("Promise Rejected.", e);
 			fulfill([]);
 		});
 	});

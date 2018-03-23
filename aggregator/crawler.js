@@ -3,7 +3,6 @@ var SourceDB = require('./models/source');
 var NewsItem = require('./news-item');
 var NewsItemDB = require('./models/news-item');
 
-var feedUrl = 'https://medium.com/feed/@WeBetCrypto';
 var Topic = require('./topic-detection');
 var mlab = require('./db');
 var cronJob = require('cron').CronJob;
@@ -82,7 +81,7 @@ function getNews() {
       // iterate through source and get newsitems from all feeds
       for (var i = 0; i < sources.length; i++) {
         var source = sources[i];
-        winston.log('info', 'crawler', i, source.name);
+        // winston.log('info', 'crawler', i, source.name);
         newsItemsPromises.push(allFeeds(source));
       }
 
@@ -95,8 +94,8 @@ function getNews() {
         var now = new Date();
         var oneWeekAgo = new Date(now.getTime() - (60*60*24*7*1000));
 
-
         // iterate newsitems and save to db
+        var toSave = [];
         for (var i = 0; i < flattened.length; i++) {
           var newsItem = new NewsItemDB(flattened[i]);
 
@@ -105,23 +104,18 @@ function getNews() {
           if(newsDate.getTime() < oneWeekAgo.getTime()){
             continue;
           }
-
-          newsItem.save(function(err) {
-
-            if (err) {
-
-              if (err.code === 11000) {
-                winston.log('error', 'News item already exists in DB.');
-              } else {
-                winston.log('error', err.message);
-              }
-
-            } else {
-              winston.log('info', 'News item written in DB.');
-            }
-
-          });
+          toSave.push(newsItem);
         }
+
+        NewsItemDB.insertMany(toSave)
+        .then(function(docs) {
+          console.log("saved:", docs.length);
+             // do something with docs
+        })
+        .catch(function(err) {
+            // console.log("error:", err);
+            // error handling here
+        });
 
         fulfill(flattened);
       });

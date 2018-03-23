@@ -6,6 +6,12 @@ const bodyParser = require('body-parser');
 const mlab = require('./db');
 const Crawler = require('./crawler');
 const cors = require('cors');
+const cp = require('child_process');
+
+// crawlerProcess.on('message', (m) => {
+//   console.log('PARENT got message:', m);
+// });
+// crawlerProcess.send({ hello: 'world' });
 
 // Get our API routes
 const api = require('./routes/api');
@@ -16,8 +22,8 @@ app.use(cors());
 // connect to database
 mlab.connect();
 
-// check sources every 10 minutes
-Crawler.startCrawling(10);
+// start crawler as different child_process
+const crawlerProcess = cp.fork(`${__dirname}/crawler-process.js`);
 
 // Parsers for POST data
 app.use(bodyParser.json());
