@@ -45,28 +45,31 @@ function getSources(req, res, next) {
 function getNewsItems(req, res, next) {
   var searchTerm = req.params.term || '';
   var page = req.query.page || 1;
-  var skip = page * pageSize;
+  var skip = (page - 1) * pageSize;
   var query = {};
+
+  searchTerm.trim();
   if (searchTerm.length > 1) {
     query = {
-      title: new RegExp(searchTerm, 'i')
-      // $or: [{
-      //   title: new RegExp(searchTerm, 'i')
-      // }, {
-      //   content: new RegExp(searchTerm, 'i')
-      // }, {
-      //   author: new RegExp(searchTerm, 'i')
-      // }]
+
+      $or: [{
+        title: new RegExp(searchTerm, 'i')
+      }, {
+        content: new RegExp(searchTerm, 'i')
+      }, {
+        author: new RegExp(searchTerm, 'i')
+      }]
     }
 
   }
 
   NewsItemDB.find(query)
+    .skip(skip)
+    .limit(pageSize)
     .sort({
       dateCreated: 'desc'
     })
-    .skip(skip)
-    .limit(pageSize)
+
     .exec(function(err, news) {
       if (err) {
         console.log("ERROR", err);
