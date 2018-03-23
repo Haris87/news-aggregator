@@ -14,31 +14,41 @@ const httpOptions = {
 export class NewsComponent implements OnInit {
 
   news: News[] = [];
-  page: number;
-  reverse: boolean;
+  searchTerm: string = "";
+  page: number = 1;
+  reverse: boolean = false;
 
   constructor(private http:HttpClient) {
 
   }
 
   ngOnInit() {
-    this.page = 1;
-    this.reverse = false;
     this.getNews(this.page).subscribe(news => {
       this.news = this.news.concat(news);
     });
   }
 
-  getNews(page: number) {
-      console.log('getting news, page', page);
+  search(term:string){
+    console.log(term);
+    this.getNews(this.page, term).subscribe(news => {
+      this.news = news;
+    });
+  }
+
+  getNews(page: number, term?: string) {
+      console.log('getting news', page, term);
       let params = new HttpParams();
       params = params.append('page', String(page));
-      return this.http.get<News[]>('http://localhost:3000/api/news', { params: params });
+
+      if(term === undefined) term = ""
+
+      return this.http.get<News[]>('http://localhost:3000/api/news/'+term, { params: params });
   }
 
   refresh(){
     this.page = 1;
-    this.getNews(this.page).subscribe(news => {
+    this.searchTerm = "";
+    this.getNews(this.page, this.searchTerm).subscribe(news => {
       this.news = news;
     });
   }
@@ -46,7 +56,7 @@ export class NewsComponent implements OnInit {
   loadMore(){
     this.page++;
     console.log('loading more, page', this.page);
-    this.getNews(this.page).subscribe(news => {
+    this.getNews(this.page, this.searchTerm).subscribe(news => {
       this.news = this.news.concat(news);
     });
   }

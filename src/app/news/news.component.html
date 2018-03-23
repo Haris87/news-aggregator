@@ -3,9 +3,9 @@
 </p>
 <button (click)="refresh()">refresh</button>
 <!-- <button (click)="sortNewsByDate()">Sort by date</button> -->
-
+<input placeholder="Search news..." [(ngModel)]="searchTerm" (ngModelChange)="search(searchTerm)"/>
 <div *ngFor="let item of news; let i = index">
-  <pre style="display: inline">#{{i}}</pre>
+  <pre style="display: inline">#{{i+1}}</pre>
   <blockquote class="news-item">
     <p>{{item.title}}</p>
     <div>

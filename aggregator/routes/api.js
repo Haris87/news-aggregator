@@ -3,11 +3,12 @@ var NewsItemDB = require('../models/news-item');
 var SourceDB = require('../models/source');
 var router = express.Router();
 
+var pageSize = 20;
+
 router.get('/', index);
 router.post('/source', addSource);
 router.get('/source', getSources);
-router.get('/news', getAllNewsItems);
-router.get('/news/search/:term', searchNews);
+router.get('/news/:term?', getNewsItems);
 
 function index(req, res, next) {
   res.send('Welcome to my api, now get the fuck out.');
@@ -41,28 +42,38 @@ function getSources(req, res, next) {
   });
 }
 
-function getAllNewsItems(req, res, next) {
+function getNewsItems(req, res, next) {
+  var searchTerm = req.params.term || '';
   var page = req.query.page || 1;
-  var pageSize = 20;
   var skip = page * pageSize;
-  NewsItemDB.find({}).sort({dateCreated: 'desc'}).skip(skip).limit(pageSize).exec(function(err, news) {
-    res.send(news);
-  });
-}
+  var query = {};
+  if (searchTerm.length > 1) {
+    query = {
+      title: new RegExp(searchTerm, 'i')
+      // $or: [{
+      //   title: new RegExp(searchTerm, 'i')
+      // }, {
+      //   content: new RegExp(searchTerm, 'i')
+      // }, {
+      //   author: new RegExp(searchTerm, 'i')
+      // }]
+    }
 
-function searchNews(req, res, next) {
-  var searchTerm = req.params.term || 'awesome';
-  NewsItemDB.find({
-      $or: [{
-        title: new RegExp(searchTerm, 'i')
-      }, {
-        content: new RegExp(searchTerm, 'i')
-      }, {
-        author: new RegExp(searchTerm, 'i')
-      }]
-    }).sort({dateCreated: 'desc'}).limit(100).exec(function(err, sources) {
-      res.send(sources);
+  }
+
+  NewsItemDB.find(query)
+    .sort({
+      dateCreated: 'desc'
+    })
+    .skip(skip)
+    .limit(pageSize)
+    .exec(function(err, news) {
+      if (err) {
+        console.log("ERROR", err);
+      }
+      res.send(news);
     });
 }
+
 
 module.exports = router;
