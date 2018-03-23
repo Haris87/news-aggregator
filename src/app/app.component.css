@@ -6,8 +6,6 @@
   font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
 }
 
-
-
 #navigation {
   padding: 10px;
   margin-bottom: 10px;
@@ -20,6 +18,27 @@
   margin-right: 10px;
   text-decoration: none;
   color: white;
+}
+
+.column {
+  display: inline-block;
+  vertical-align: top;
+  max-height: 87vh;
+}
+
+.column::-webkit-scrollbar {
+    width: 8px;
+}
+
+.column::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.column::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: lightgrey;
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
 }
 
 .active-route {

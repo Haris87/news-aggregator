@@ -1,15 +1,21 @@
-<button (click)="refresh()">refresh</button>
-<!-- <button (click)="sortNewsByDate()">Sort by date</button> -->
-<input placeholder="Search news..." [(ngModel)]="searchTerm" (ngModelChange)="search(searchTerm)"/>
-<div *ngFor="let item of news; let i = index">
-  <pre style="display: inline">#{{i+1}}</pre>
-  <blockquote class="news-item">
-    <p>{{item.title}}</p>
-    <div>
-      <div><fa [name]="getIcon(item)" [size]="1" class="{{getIcon(item)}}"></fa> {{item.source}}</div>
-      <div><a href="{{item.url}}" target="_blank">{{item.dateCreated | date:'medium'}}</a> <a class="show-content" *ngIf="item.type!='TWITTER'" (click)="item.show=!item.show">{{item.show? 'Hide': 'Show'}} content</a></div>
-    </div>
-    <div class="news-content" [hidden]="!item.show"><div [innerHTML]="item.content"></div></div>
-  </blockquote>
-</div>
-<button (click)="loadMore()">Load more news</button>
+<span class="column filters">
+
+  <!-- <button (click)="sortNewsByDate()">Sort by date</button> -->
+  <input placeholder="Search news..." [(ngModel)]="searchTerm" (ngModelChange)="search(searchTerm)"/>
+
+</span>
+<span class="column news">
+  <div *ngFor="let item of news; let i = index">
+    <pre style="display: inline">#{{i+1}}</pre>
+    <blockquote class="news-item">
+      <p>{{item.title}}</p>
+      <div>
+        <div><fa [name]="getIcon(item)" [size]="1" class="{{getIcon(item)}}"></fa> {{item.source}}</div>
+        <div><a href="{{item.url}}" target="_blank">{{item.dateCreated | date:'medium'}}</a> <a class="show-content" *ngIf="item.type!='TWITTER'" (click)="item.show=!item.show">{{item.show? 'Hide': 'Show'}} content</a></div>
+      </div>
+      <div class="news-content" [hidden]="!item.show"><div [innerHTML]="item.content"></div></div>
+    </blockquote>
+  </div>
+  <button (click)="loadMore()">Load more news</button> <button (click)="refresh()">refresh</button>
+
+</span>
