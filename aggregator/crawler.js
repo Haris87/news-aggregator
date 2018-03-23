@@ -132,15 +132,25 @@ function getNews() {
 
 }
 
-function startCrawling(minutes) {
+function deleteOldNews(){
+    var daysAgo = 7;
+    var cutoff = new Date();
+    cutoff.setDate(cutoff.getDate()-daysAgo);
+    NewsItemDB.find({dateCreated: {$lt: cutoff}}).remove().exec();
+}
 
+function startCrawling(minutes) {
   var cronInterval = '00 */' + minutes + ' * * * *';
   var job = new cronJob(cronInterval, function() {
     winston.log('info', 'cron ' + minutes + 'm');
+
+    // get news from feeds
     getNews().then(function(items) {
       winston.log('info', "Got", items.length, "items");
       winston.log('info', getByteCount(items.toString()), "bytes");
-    })
+    });
+    // delete items older than a week
+    deleteOldNews();
   }, null, false, 'UTC');
 
   job.start();
