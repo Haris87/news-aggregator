@@ -6,6 +6,31 @@
   font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
 }
 
+
+
+#navigation {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, rgba(0,161,224,1), #79589F);
+}
+
+#navigation a {
+  font-size: 20px;
+  font-weight: 300;
+  margin-right: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.active-route {
+  font-weight: 600 !important;
+}
+
+#container {
+  padding: 8px;
+}
+
+
 label {
     display: block;
     margin: 0px;
@@ -47,7 +72,8 @@ button {
   border-radius: 2px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 
-  background-color: #2ecc71;
+  /* background-color: #2ecc71; */
+  background: linear-gradient(135deg, rgba(0,161,224,1), #79589F);
   color: #ecf0f1;
 
   transition: background-color .3s;
